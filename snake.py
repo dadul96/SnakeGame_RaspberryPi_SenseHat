@@ -2,18 +2,18 @@ from sense_hat import SenseHat
 import time
 import random
 
-s = SenseHat()
-s.low_light = True
+senseHat = SenseHat()
+senseHat.low_light = True
 
 green = (0, 255, 0)
 red = (255, 0, 0)
 white = (255,255,255)
 nothing = (0,0,0)
 
-def five_logo():
+def five_img():
     W = white
     O = nothing
-    logo = [
+    img = [
     O, O, W, W, W, W, O, O,
     O, O, W, O, O, O, O, O,
     O, O, W, O, O, O, O, O,
@@ -23,12 +23,12 @@ def five_logo():
     O, O, O, O, O, W, O, O,
     O, O, W, W, W, W, O, O,
     ]
-    return logo
+    return img
 
-def four_logo():
+def four_img():
     W = white
     O = nothing
-    logo = [
+    img = [
     O, O, W, O, O, O, O, O,
     O, O, W, O, O, O, O, O,
     O, O, W, O, O, O, O, O,
@@ -38,12 +38,12 @@ def four_logo():
     O, O, O, O, W, O, O, O,
     O, O, O, O, W, O, O, O,
     ]
-    return logo
+    return img
 
-def three_logo():
+def three_img():
     W = white
     O = nothing
-    logo = [
+    img = [
     O, O, W, W, W, W, O, O,
     O, O, O, O, O, W, O, O,
     O, O, O, O, O, W, O, O,
@@ -53,12 +53,12 @@ def three_logo():
     O, O, O, O, O, W, O, O,
     O, O, W, W, W, W, O, O,
     ]
-    return logo
+    return img
 
-def two_logo():
+def two_img():
     W = white
     O = nothing
-    logo = [
+    img = [
     O, O, W, W, W, W, O, O,
     O, O, O, O, O, W, O, O,
     O, O, O, O, O, W, O, O,
@@ -68,12 +68,12 @@ def two_logo():
     O, O, W, O, O, O, O, O,
     O, O, W, W, W, W, O, O,
     ]
-    return logo
+    return img
 
-def one_logo():
+def one_img():
     W = white
     O = nothing
-    logo = [
+    img = [
     O, O, O, O, W, O, O, O,
     O, O, O, W, W, O, O, O,
     O, O, W, O, W, O, O, O,
@@ -83,34 +83,21 @@ def one_logo():
     O, O, O, O, W, O, O, O,
     O, O, O, W, W, W, O, O,
     ]
-    return logo
+    return img
 
-def clear_logo():
-    W = white
-    O = nothing
-    logo = [
-    O, O, O, O, O, O, O, O,
-    O, O, O, O, O, O, O, O,
-    O, O, O, O, O, O, O, O,
-    O, O, O, O, O, O, O, O,
-    O, O, O, O, O, O, O, O,
-    O, O, O, O, O, O, O, O,
-    O, O, O, O, O, O, O, O,
-    O, O, O, O, O, O, O, O,
-    ]
-    return logo
-    
-images = [five_logo, four_logo, three_logo, two_logo, one_logo, clear_logo]
+images = [five_img, four_img, three_img, two_img, one_img]
 
 while True:
   #variables:
   gameOverFlag = False
+  growFlag = False
+  randomFoodFlag = False
   speed = 0.5
-  grow = False
-  
+  speedIncrease = 0.02
+
   #start countdown:
-  for image in images:
-      s.set_pixels(image())
+  for img in images:
+      senseHat.set_pixels(img())
       time.sleep(.70)
   
   #set standard snake starting position:
@@ -118,46 +105,38 @@ while True:
   snakePosY = [6]
   
   #generate random food position:
-  foodPosX = 0
-  foodPosY = 0
   while True:
     foodPosX = random.randint(0, 7)
     foodPosY = random.randint(0, 7)
     if foodPosX != snakePosX[0] or foodPosY != snakePosY[0]:
       break
 
-  #set standard snake starting direction (move upwards):
+  #set standard snake starting direction:
   moveX = 0
   moveY = -1
   
   
-  ###########
-  ###########
-  #game loop:
+  #-----------------------------------
+  #             game loop
+  #-----------------------------------
   while not gameOverFlag:
     #check food:
     if foodPosX == snakePosX[0] and foodPosY == snakePosY[0]:
-      speed = speed - 0.02  #increase speed
-      grow = True
-      retryRandomFoodPos = True
-      while retryRandomFoodPos:
-        foodPosX = random.randint(0, 7)
-        foodPosY = random.randint(0, 7)
-        retryRandomFoodPos = False
-        for i in range(len(snakePosX)):
-          if foodPosX == snakePosX[i] and foodPosY == snakePosY[i]:
-            retryRandomFoodPos = True
-            break
+      growFlag = True
+      randomFoodFlag = True
+      speed = speed - speedIncrease
     
     #check suicide:
     for i in range(1, len(snakePosX)):
-      if snakePosX[0] == snakePosX[i] and snakePosY[0] == snakePosY[i]:
+      if snakePosX[i] == snakePosX[0] and snakePosY[i] == snakePosY[0]:
         gameOverFlag = True
+    
+    #check gameover:
     if gameOverFlag:
       break
     
     #check joystic:
-    events = s.stick.get_events()
+    events = senseHat.stick.get_events()
     for event in events:
       if event.direction == "left" and moveX != 1:
         moveX = -1
@@ -172,34 +151,48 @@ while True:
         moveY = 1
         moveX = 0
     
-    #move direction:
-    if grow:
-      grow = False
+    #grow snake:
+    if growFlag:
+      growFlag = False
       snakePosX.append(0)
       snakePosY.append(0)
-      
+    
+    #move direction:
     for i in range((len(snakePosX)-1), 0, -1):
       snakePosX[i] = snakePosX[i-1]
       snakePosY[i] = snakePosY[i-1]
-    
+      
     snakePosX[0] = snakePosX[0] + moveX
     snakePosY[0] = snakePosY[0] + moveY
+    
+    #check game borders:
     if snakePosX[0] > 7:
       snakePosX[0] = snakePosX[0] - 8
+    elif snakePosX[0] < 0:
+      snakePosX[0] = snakePosX[0] + 8
     if snakePosY[0] > 7:
       snakePosY[0] = snakePosY[0] - 8
-    if snakePosX[0] < 0:
-      snakePosX[0] = snakePosX[0] + 8
-    if snakePosY[0] < 0:
+    elif snakePosY[0] < 0:
       snakePosY[0] = snakePosY[0] + 8
-      
+    
+    #spawn random food:
+    if randomFoodFlag:
+      randomFoodFlag = False
+      retryFlag = True
+      while retryFlag:
+        foodPosX = random.randint(0, 7)
+        foodPosY = random.randint(0, 7)
+        retryFlag = False
+        for x, y in zip(snakePosX, snakePosY):
+          if x == foodPosX and y == foodPosY:
+            retryFlag = True
+            break
+    
     #update matrix:
-    s.set_pixels(clear_logo())
-    s.set_pixel(foodPosX, foodPosY, red) #set food pixel
-    for i in range(len(snakePosX)):
-      s.set_pixel(snakePosX[i], snakePosY[i], green) #set snake pixels
+    senseHat.clear()
+    senseHat.set_pixel(foodPosX, foodPosY, red)
+    for x, y in zip(snakePosX, snakePosY):
+      senseHat.set_pixel(x, y, green)
     
     #speed:
     time.sleep(speed)
-  ###########
-  ###########
