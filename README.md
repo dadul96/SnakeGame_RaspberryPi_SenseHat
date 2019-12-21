@@ -4,7 +4,7 @@ This python script runs a Snake Game on the Raspberry Pi Sense Hat.
 ![](screenshot.gif)
 
 ### Installation
-There is no installation required. Just download the **snake.py** and run it.
+There is no installation required. Just download the **snake.py**-file and run it.
 
 ### Requirements
 Raspberry Pi & Sense Hat or the [Sense Hat Emulator](https://trinket.io/sense-hat)
