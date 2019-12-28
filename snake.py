@@ -133,7 +133,7 @@ while True:
         # check if snake eats food:
         if foodPosX == snakePosX[0] and foodPosY == snakePosY[0]:
             growSnakeFlag = True
-            generategenerateRandomFoodFlag = True
+            generateRandomFoodFlag = True
             snakeMovementDelay += snakeMovementDelayDecrease
 
         # check if snake bites itself:
@@ -186,7 +186,7 @@ while True:
             snakePosY[0] += MATRIX_SIZE
 
         # spawn random food:
-        if generategenerateRandomFoodFlag:
+        if generateRandomFoodFlag:
             generateRandomFoodFlag = False
             retryFlag = True
             while retryFlag:
