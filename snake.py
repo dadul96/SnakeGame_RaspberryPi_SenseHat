@@ -141,11 +141,11 @@ while True:
             if snakePosX[i] == snakePosX[0] and snakePosY[i] == snakePosY[0]:
                 gameOverFlag = True
 
-        # check if gameover:
+        # check if game-over:
         if gameOverFlag:
             break
 
-        # check joystic events:
+        # check joystick events:
         events = senseHat.stick.get_events()
         for event in events:
             if event.direction == "left" and movementX != 1:
