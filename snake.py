@@ -14,80 +14,70 @@ NO_LED = (0, 0, 0)
 def five_img():
     W = WHITE
     O = NO_LED
-    img = [
-        O, O, W, W, W, W, O, O,
+    img = [O, O, W, W, W, W, O, O,
         O, O, W, O, O, O, O, O,
         O, O, W, O, O, O, O, O,
         O, O, W, W, W, W, O, O,
         O, O, O, O, O, W, O, O,
         O, O, O, O, O, W, O, O,
         O, O, O, O, O, W, O, O,
-        O, O, W, W, W, W, O, O,
-    ]
+        O, O, W, W, W, W, O, O,]
     return img
 
 
 def four_img():
     W = WHITE
     O = NO_LED
-    img = [
-        O, O, W, O, O, O, O, O,
+    img = [O, O, W, O, O, O, O, O,
         O, O, W, O, O, O, O, O,
         O, O, W, O, O, O, O, O,
         O, O, W, O, W, O, O, O,
         O, O, W, W, W, W, O, O,
         O, O, O, O, W, O, O, O,
         O, O, O, O, W, O, O, O,
-        O, O, O, O, W, O, O, O,
-    ]
+        O, O, O, O, W, O, O, O,]
     return img
 
 
 def three_img():
     W = WHITE
     O = NO_LED
-    img = [
-        O, O, W, W, W, W, O, O,
+    img = [O, O, W, W, W, W, O, O,
         O, O, O, O, O, W, O, O,
         O, O, O, O, O, W, O, O,
         O, O, O, W, W, W, O, O,
         O, O, O, O, O, W, O, O,
         O, O, O, O, O, W, O, O,
         O, O, O, O, O, W, O, O,
-        O, O, W, W, W, W, O, O,
-    ]
+        O, O, W, W, W, W, O, O,]
     return img
 
 
 def two_img():
     W = WHITE
     O = NO_LED
-    img = [
-        O, O, W, W, W, W, O, O,
+    img = [O, O, W, W, W, W, O, O,
         O, O, O, O, O, W, O, O,
         O, O, O, O, O, W, O, O,
         O, O, W, W, W, W, O, O,
         O, O, W, O, O, O, O, O,
         O, O, W, O, O, O, O, O,
         O, O, W, O, O, O, O, O,
-        O, O, W, W, W, W, O, O,
-    ]
+        O, O, W, W, W, W, O, O,]
     return img
 
 
 def one_img():
     W = WHITE
     O = NO_LED
-    img = [
-        O, O, O, O, W, O, O, O,
+    img = [O, O, O, O, W, O, O, O,
         O, O, O, W, W, O, O, O,
         O, O, W, O, W, O, O, O,
         O, O, O, O, W, O, O, O,
         O, O, O, O, W, O, O, O,
         O, O, O, O, W, O, O, O,
         O, O, O, O, W, O, O, O,
-        O, O, O, W, W, W, O, O,
-    ]
+        O, O, O, W, W, W, O, O,]
     return img
 
 
@@ -168,9 +158,9 @@ while True:
             snakePosY.append(0)
 
         # move snake:
-        for i in range((len(snakePosX)-1), 0, -1):
-            snakePosX[i] = snakePosX[i-1]
-            snakePosY[i] = snakePosY[i-1]
+        for i in range((len(snakePosX) - 1), 0, -1):
+            snakePosX[i] = snakePosX[i - 1]
+            snakePosY[i] = snakePosY[i - 1]
 
         snakePosX[0] += movementX
         snakePosY[0] += movementY
